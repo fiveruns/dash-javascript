@@ -1,13 +1,13 @@
 ---
 layout: default
-title: dash-js
+title: dash-javascript
 ---
       
 <div class="description">
   Access data from your apps in Dash from JavaScript.
 </div>
 
-**Important!** I applaud you're enthusiasm, but you're early. This is a work in progress and may change a lot in the next couple days.
+**Important!** I applaud your enthusiasm, but you're early. This is a work in progress and may change a lot in the next couple days.
 
 ## Dependencies
 
@@ -15,11 +15,48 @@ jQuery &gt;= 1.3.1 (may work with jQuery 1.2.6)
 
 ## Examples
 
-`dash-js` makes it easy to fetch data from Dash for use in your application. You can fetch the latest value for any metric, fetch the values for a metric between some time range using a specific time window, or you can fetch data and metadata related to some metric within a time range and window.
+`dash-javascript` makes it easy to fetch data from Dash for use in your application. You can fetch the latest value for any metric, fetch the values for a metric between some time range using a specific time window, or you can fetch data and metadata related to some metric within a time range and window.
 
-### How dash-js uses callbacks
+### For the impatient
 
-First, it's important to note that using `dash-js` is slightly different from other jQuery plugins you may have used. Because your app and Dash are on different domains, we can't use jQuery excellent AJAX support. Instead, we have to use JSON-P. However, we'd like to offer a nice API, so `dash-js` takes the immediate callback. It then calls your function, passing the data return from Dash.
+### `fetchLatest`
+
+This method will give you the single latest value for the metric you specify.
+
+{% highlight javascript %}
+function update(sel) {
+  return function(datum) {
+    $(sel).append(datum);
+  }
+}
+
+$.dash.fetchSeries({apiToken: 'yourtoken', 'metric_name': 'cpu'}, update('#cpuLatest'));  
+{% endhighlight %}
+
+<div class="demo">
+  The latest CPU usage is: <span id="cpuLatest"></span>
+</div>
+<script type="text/javascript" charset="utf-8">
+
+function update(sel) {
+  return function(datum) {
+    $(sel).after("[" + datum + "]");
+  };
+}
+
+$.dash.fetch({apiToken: 'b1b546e3b454d17cd7a61987e9d8087c2eca0336', 'metric_name': 'cpu'}, update('#cpuLatest'));  
+
+</script>
+
+### `fetchSeries`
+
+### `fetch`
+
+### Dash options
+
+### How dash-javascript uses callbacks
+
+First, it's important to note that using `dash-javascript` is slightly different from other jQuery plugins you may have used. Because your app and Dash are on different domains, we can't use jQuery excellent AJAX support. Instead, we have to use JSON-P. However, we'd like to offer a nice API, so `dash-javascript` takes the immediate callback. It then calls your function, passing the data return from Dash.
 
 What this means is what you'll want to use `$.dash.whatever` in such a way that the element you'd like to modify with Dash data is a closure on the function you pass to `$.dash.whatever`.
 
@@ -39,41 +76,6 @@ function myUpdater(sel) {
 
 $.dash.fetchSeries({'metric_name': 'cpu'}, myUpdater('#something'));
 {% endhighlight %}
-
-### `fetchLatest`
-
-This method will give you the single latest value for the metric you specify.
-
-{% highlight javascript %}
-function update(sel) {
-  return function(datum) {
-    $(sel).append(datum);
-  }
-}
-
-$.dash.fetchSeries({apiToken: 'ffff', 'metric_name': 'cpu'}, update('#cpuLatest'));  
-{% endhighlight %}
-
-<div class="demo">
-  The latest CPU usage is: <span id="cpuLatest"></span>
-</div>
-<script type="text/javascript" charset="utf-8">
-
-function update(sel) {
-  return function(datum) {
-    $(sel).after("[" + datum + "]");
-  };
-}
-
-$.dash.fetch({apiToken: 'ffff', 'metric_name': 'cpu'}, update('#cpuLatest'));  
-
-</script>
-
-### `fetchSeries`
-
-### `fetch`
-
-### Dash options
 
 ## Contact
 
