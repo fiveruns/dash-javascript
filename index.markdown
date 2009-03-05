@@ -7,6 +7,8 @@ title: dash-js
   Access data from your apps in Dash from JavaScript.
 </div>
 
+**Important!** I applaud you're enthusiasm, but you're early. This is a work in progress and may change a lot in the next couple days.
+
 ## Dependencies
 
 jQuery &gt;= 1.3.1 (may work with jQuery 1.2.6)
