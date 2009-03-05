@@ -1,0 +1,3 @@
+[submodule "dash-js"]
+	path = dash-js
+	url = git://github.com/fiveruns/dash-javascript.git

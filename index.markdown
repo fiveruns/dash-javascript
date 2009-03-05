@@ -59,11 +59,11 @@ $.dash.fetchSeries({apiToken: 'ffff', 'metric_name': 'cpu'}, update('#cpuLatest'
 
 function update(sel) {
   return function(datum) {
-    $(sel).append(datum);
-  }
+    $(sel).after("[" + datum + "]");
+  };
 }
 
-$.dash.fetchSeries({apiToken: 'ffff', 'metric_name': 'cpu'}, update('#cpuLatest'));  
+$.dash.fetch({apiToken: 'ffff', 'metric_name': 'cpu'}, update('#cpuLatest'));  
 
 </script>
 
