@@ -47,4 +47,18 @@
       });
     }
   };
+  
+  $.fn.dashFetch = function(options, callback) {
+    var options = $.extend(defaults(), options ? options : {});
+    
+    this.each(function() {
+      var el = this;
+      
+      $.getJSON(apiUrl(options), extractParams(options), function(obj) {
+        callback.apply(el, [obj]);
+      });
+    });
+    
+    return this;
+  };
 })(jQuery);
