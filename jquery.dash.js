@@ -1,10 +1,8 @@
 (function($) {
-  var defaults = function() {
-    return {
+  var defaults = {
       apiToken: '',
       metric: '',
       dashHost: 'http://dash.fiveruns.com'
-    };
   };
   
   var apiUrl = function(options) {
@@ -26,39 +24,33 @@
     
     return params;
   };
-
-  $.dash = {
-    fetchLatest: function(options, callback) {
-      options = $.extend(defaults(), options ? options : {});
-      
-      $.getJSON(apiUrl(options), extractParams(options), function(obj) {
-        var value = obj.data.pop().pop();
-        var label = obj.metric;
-        callback({value: value, label: label});
-      });
-    },
-    
-    fetch: function(options, callback) {
-      options = $.extend(defaults(), options ? options : {});
-      
-      $.getJSON(apiUrl(options), extractParams(options), function(obj) {
-        var data = obj.data;
-        callback(data);
-      });
-    }
-  };
   
-  $.fn.dashFetch = function(options, callback) {
-    var options = $.extend(defaults(), options ? options : {});
+  $.fn.dash = function(options, callback) {
+    var options = $.extend(defaults, options ? options : {});
+    var el = this;
     
     this.each(function() {
-      var el = this;
-      
       $.getJSON(apiUrl(options), extractParams(options), function(obj) {
-        callback.apply(el, [obj]);
+        switch (options.fetch) {
+          case "all":
+            callback.apply(el, [obj]);
+            break;
+          case "series":
+            var datum = $.map(obj.data, function(i) { return i[1]; });
+            callback.apply(el, [datum]);
+            break;
+          case "latest":
+            var value = obj.data.pop().pop();
+            callback.apply(el, [value]);
+            break;
+          default:
+            // Raise an error
+            break;
+        };
       });
     });
     
     return this;
   };
+  
 })(jQuery);
