@@ -19,63 +19,100 @@ jQuery &gt;= 1.3.1 (may work with jQuery 1.2.6)
 
 ### For the impatient
 
-### `fetchLatest`
+* Use `.dash(options, callback)` to fetch data from Dash. 
+* Required keys are `api_token`, `fetch`, and `metric_name`.
+* Depending on which `fetch` parameter you use, your callback function will either receive a single value, an array of values, or an object.
+* In your callback, `this` will refer to an element matching your selector.
 
-This method will give you the single latest value for the metric you specify.
+Fetching the most recent value for the `cpu` metric:
 
-{% highlight javascript %}
-function update(sel) {
-  return function(datum) {
-    $(sel).append(datum);
-  }
-}
-
-$.dash.fetchSeries({apiToken: 'yourtoken', 'metric_name': 'cpu'}, update('#cpuLatest'));  
+{% highlight html %}
+<div id="demo0">
+  Latest CPU value: 
+</div>
 {% endhighlight %}
 
-<div class="demo">
-  The latest CPU usage is: <span id="cpuLatest"></span>
+{% highlight javascript %}
+$('#demo0').dash({fetch: 'latest', apiToken: token, 'metric_name': 'cpu'},
+  function(value) {
+    $(this).append(value);
+});
+{% endhighlight %}
+
+<div id="demo0">
+  Latest CPU value: 
 </div>
-<script type="text/javascript" charset="utf-8">
 
-function update(sel) {
-  return function(datum) {
-    $(sel).after("[" + datum + "]");
-  };
-}
+Fetching a data series:
 
-$.dash.fetch({apiToken: 'b1b546e3b454d17cd7a61987e9d8087c2eca0336', 'metric_name': 'cpu'}, update('#cpuLatest'));  
+{% highlight html %}
+<div id="demo1">
+  Recent CPU values:
+</div>
+{% endhighlight %}
 
-</script>
+{% highlight javascript %}
 
-### `fetchSeries`
+$('#demo1').dash({fetch: 'series', apiToken: token, 'metric_name': 'cpu'},
+  function(values) {
+    $(this).append(values.join(','));
+  });
 
-### `fetch`
+{% endhighlight %}
+
+<div id="demo1">
+  Recent CPU values:
+</div>
+
+Fetching metadata and metric data:
+
+{% highlight javascript %}
+$('#demo2').dash({fetch: 'all', apiToken: token, 'metric_name': 'cpu'},
+  function(obj) {
+    $(this).children('h4').replaceWith("<h4>" + obj.metric + " from " + obj.app + "</h4>");
+    $(this).children('.values').append("Most recent value: " + obj.data[0][1]);
+  });
+{% endhighlight %}
+
+{% highlight html %}
+<div id="demo2">
+  <h4>Placeholder</h4>
+  
+  <p class="values"></p>
+</div>
+{% endhighlight %}
+
+<div id="demo2">
+  <h4>Placeholder</h4>
+  
+  <p class="values"></p>
+</div>
 
 ### Dash options
 
-### How dash-javascript uses callbacks
-
-First, it's important to note that using `dash-javascript` is slightly different from other jQuery plugins you may have used. Because your app and Dash are on different domains, we can't use jQuery excellent AJAX support. Instead, we have to use JSON-P. However, we'd like to offer a nice API, so `dash-javascript` takes the immediate callback. It then calls your function, passing the data return from Dash.
-
-What this means is what you'll want to use `$.dash.whatever` in such a way that the element you'd like to modify with Dash data is a closure on the function you pass to `$.dash.whatever`.
-
-So, typically in jQuery, you'd do something like this:
-
-{% highlight javascript %}
-$('#something').dash.fetchSeries({'metric_name': 'cpu'}, function() { // do something });
-{% endhighlight %}
-But instead, you write this:
+<table>
+  <thead>
+    <th>`fetch` option</th>
+    <th>Callback arguments</th>
+  </thead>
   
-{% highlight javascript %}
-function myUpdater(sel) {
-  return function(datum) {
-    $(sel).append(datum);
-  }
-}
+  <tbody>
+    <tr>
+      <td>`latest`</td>
+      <td>The latest value for the specified metric.</td>
+    </tr>
+    <tr>
+      <td>`series`</td>
+      <td>An array of data values for the specified metric.</td>
+    </tr>
+    <tr>
+      <td>`all`</td>
+      <td>Metric metadata plus the data values.</td>
+    </tr>
+  </tbody>
+</table>
 
-$.dash.fetchSeries({'metric_name': 'cpu'}, myUpdater('#something'));
-{% endhighlight %}
+### The Dash response object
 
 ## Contact
 
@@ -89,31 +126,28 @@ You can also clone the project with <a href="http://git-scm.com">Git</a> by runn
 
     $ git clone git://github.com/fiveruns/dash-javascript
 
-## License
+See the [README](http://github.com/fiveruns/dash-javascript/tree/master "fiveruns's dash-javascript at master - GitHub") file for license and author info.
 
-    # (The FiveRuns License)
-    #
-    # Copyright (c) 2006-2009 FiveRuns Corporation
-    #
-    # Permission is hereby granted, free of charge, to any person obtaining
-    # a copy of this software and associated documentation files (the
-    # 'Software'), to deal in the Software without restriction, including
-    # without limitation the rights to use, copy, modify, merge, publish,
-    # distribute, sublicense, and/or sell copies of the Software, and to
-    # permit persons to whom the Software is furnished to do so, subject to
-    # the following conditions:
-    #
-    # The above copyright notice and this permission notice shall be
-    # included in all copies or substantial portions of the Software.
-    #
-    # THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-    # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-    # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-    # IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-    # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-    # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## Authors
-
-The FiveRuns Development Team
+<script type="text/javascript" charset="utf-8">
+  
+  $(function() {
+    var token = 'b1b546e3b454d17cd7a61987e9d8087c2eca0336';
+    
+    $('#demo0').dash({fetch: 'latest', apiToken: token, 'metric_name': 'cpu'},
+      function(value) {
+        $(this).append(value);
+      });
+    
+    $('#demo1').dash({fetch: 'series', apiToken: token, 'metric_name': 'cpu'},
+      function(values) {
+        $(this).append(values.join(','));
+      });
+      
+    $('#demo2').dash({fetch: 'all', apiToken: token, 'metric_name': 'cpu'},
+      function(obj) {
+        $(this).children('h4').replaceWith("<h4>" + obj.metric + " from " + obj.app + "</h4>");
+        $(this).children('.values').append("Most recent value: " + obj.data[0][1]);
+      });
+  });
+  
+</script>
