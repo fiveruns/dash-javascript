@@ -1,8 +1,10 @@
 (function($) {
-  var defaults = {
-      apiToken: '',
-      metric: '',
-      dashHost: 'http://dash.fiveruns.com'
+  var defaults = function() {
+    return {
+        apiToken: '',
+        metric: '',
+        dashHost: 'http://dash.fiveruns.com'
+    };
   };
   
   var apiUrl = function(options) {
@@ -26,7 +28,7 @@
   };
   
   $.fn.dash = function(options, callback) {
-    var options = $.extend(defaults, options ? options : {});
+    var options = $.extend(defaults(), options ? options : {});
     var el = this;
     
     this.each(function() {
