@@ -1,9 +1,9 @@
 (function($) {
   var defaults = function() {
     return {
-      apiToken: '',
-      metric: '',
-      dashHost: 'http://dash.fiveruns.com'
+        apiToken: '',
+        metric: '',
+        dashHost: 'http://dash.fiveruns.com'
     };
   };
   
@@ -26,25 +26,33 @@
     
     return params;
   };
-
-  $.dash = {
-    fetchLatest: function(options, callback) {
-      options = $.extend(defaults(), options ? options : {});
-      
-      $.getJSON(apiUrl(options), extractParams(options), function(obj) {
-        var value = obj.data.pop().pop();
-        var label = obj.metric;
-        callback({value: value, label: label});
-      });
-    },
+  
+  $.fn.dash = function(options, callback) {
+    var options = $.extend(defaults(), options ? options : {});
+    var el = this;
     
-    fetch: function(options, callback) {
-      options = $.extend(defaults(), options ? options : {});
-      
+    this.each(function() {
       $.getJSON(apiUrl(options), extractParams(options), function(obj) {
-        var data = obj.data;
-        callback(data);
+        switch (options.fetch) {
+          case "all":
+            callback.apply(el, [obj]);
+            break;
+          case "series":
+            var datum = $.map(obj.data, function(i) { return i[1]; });
+            callback.apply(el, [datum]);
+            break;
+          case "latest":
+            var value = obj.data.pop().pop();
+            callback.apply(el, [value]);
+            break;
+          default:
+            // Raise an error
+            break;
+        };
       });
-    }
+    });
+    
+    return this;
   };
+  
 })(jQuery);
