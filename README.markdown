@@ -16,22 +16,15 @@ This was developed against jQuery 1.3.1, but will probably work with jQuery 1.2.
 
 The short version:
     
-    function updateTimes(sel) {
-      return function(datum) {
-        var dataPoints = $.map(datum, function(data) { return data[1]; });
-        $sel.append("<span>" + dataPoints + "</span>");
-      }
-    }
-    
-    $.dash.fetch({apiToken: '9f7b693faf08872cb04f6ef7c470940062b50147',
-                  metric_name: 'response_time',
-                  window: 1}, updateTimes('.response_times'));
+    $('#demo0').dash({fetch: 'latest', apiToken: token, 'metric_name': 'cpu'},
+      function(value) {
+        $(this).append(value);
+    });
 
 The long version: see the [dash-js website for deeper details](http://fiveruns.github.com/dash-js/).
 
 ## Limitations
 
-* Due to the use of JSON-P and the desire to put a friendly face on data as it comes back from Dash, callback functions must be used, rather than the typical jQuery idiom. We'd love to find a better way to skin that cat.
 * For the time being, we support only read access to Dash from browser-based apps. This is due to scalability concerns and the awkwardness of writing data in cross-domain browser-based applications.
 
 ## Authors
