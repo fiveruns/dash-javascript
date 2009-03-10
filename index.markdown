@@ -2,10 +2,8 @@
 layout: default
 title: dash-javascript
 ---
-      
-<div class="description">
-  Access data from your apps in Dash from JavaScript.
-</div>
+
+`dash-javascript` makes it easy to fetch data from Dash for use in your application. You can fetch the latest value for any metric, fetch the values for a metric between some time range using a specific time window, or you can fetch data and metadata related to some metric within a time range and window.
 
 ## Dependencies
 
@@ -13,9 +11,7 @@ jQuery &gt;= 1.3.1 (may work with jQuery 1.2.6)
 
 ## Examples
 
-`dash-javascript` makes it easy to fetch data from Dash for use in your application. You can fetch the latest value for any metric, fetch the values for a metric between some time range using a specific time window, or you can fetch data and metadata related to some metric within a time range and window.
-
-### For the impatient
+For the impatient:
 
 * Use `.dash(options, callback)` to fetch data from Dash. 
 * Required keys are `api_token`, `fetch`, and `metric_name`.
@@ -161,12 +157,12 @@ In addition to `fetch`, other parameters are respected:
     </tr>
     <tr>
       <td><code>start_at</code></td>
-      <td>No</td>
+      <td>No/most recent</td>
       <td>This specifies a timestamp for the first data point you'd like to fetch.</td>
     </tr>
     <tr>
       <td><code>stop_at</code></td>
-      <td>No</td>
+      <td>No/most recent</td>
       <td>This specifies a timestamp for the last data point you'd like to fetch.</td>
     </tr>
   </tbody>
