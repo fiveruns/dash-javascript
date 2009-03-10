@@ -66,7 +66,7 @@ Fetching metadata and metric data:
 $('#demo2').dash({fetch: 'all', token: token, metric: 'cpu'},
   function(obj) {
     $(this).children('h4').replaceWith("<h4>" + obj.metric + " from " + obj.app + "</h4>");
-    $(this).children('.values').append("Most recent value: " + obj.data[0][1]);
+    $(this).children('.values').append("Most recent value: " + obj.data.reverse()[0][1]);
   });
 {% endhighlight %}
 
@@ -129,33 +129,6 @@ In addition to `fetch`, other parameters are respected:
       <td><code>token</code></td>
       <td><strong>Yes</strong></td>
       <td>This is the read token for your Dash application.</td>
-    </tr>
-    <tr>
-      <td><code>window</code></td>
-      <td>No/1 hour</td>
-      <td>
-        <p>
-          This specifies the time window to use when fetching results. Dash stores metric data in different rollup intervals. This parameter specifies which roll-up to use.
-        </p>
-        
-        <dl>
-          <dt>0</dt>
-          <dd>1 hour</dd>
-          <dt>1</dt>
-          <dd>12 hours</dd>
-          <dt>2</dt>
-          <dd>24 hours</dd>
-          <dt>3</dt>
-          <dd>48 hours</dd>
-          <dt>4</dt>
-          <dd>1 week</dd>
-        </dl>
-        
-        <p>
-          Note that you can, theoretically, request hour-resolution data for the past week, but you will still only get 60 data points.
-        </p>
-        
-      </td>
     </tr>
     <tr>
       <td><code>start_at</code></td>

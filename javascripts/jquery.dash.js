@@ -25,9 +25,6 @@
         case 'stop_at':
           params['stop_at'] = options['stop_at'];
           break;
-        case 'window':
-          params['window'] = options['window'];
-          break;
         case 'metric':
           params['metric_name'] = options['metric'];
         default:
