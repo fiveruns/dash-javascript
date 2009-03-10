@@ -23,7 +23,7 @@ The short version:
         $(this).append(value);
     });
 
-The long version: see the [dash-js website for deeper details](http://fiveruns.github.com/dash-js/).
+The long version: see the [dash-javascript website for deeper details](http://fiveruns.github.com/dash-javascript/).
 
 ## Limitations
 
@@ -39,7 +39,7 @@ As an open source project, we welcome community contributors!
 
 The best way to contribute is by sending pull requests via GitHub. The official repository for this project is:
 
-    http://github.com/fiveruns/dash-js
+    http://github.com/fiveruns/dash-javascript
     
 ## Support
 
