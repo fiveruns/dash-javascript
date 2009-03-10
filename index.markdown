@@ -1,9 +1,11 @@
 ---
 layout: default
-title: dash-javascript
+title: dash-javascript 0.5.0
 ---
 
 `dash-javascript` makes it easy to fetch data from Dash for use in your application. You can fetch the latest value for any metric, fetch the values for a metric between some time range using a specific time window, or you can fetch data and metadata related to some metric within a time range and window.
+
+The current version of `dash-javascript` is 0.5.0.
 
 ## Dependencies
 
@@ -14,7 +16,7 @@ jQuery &gt;= 1.3.1 (may work with jQuery 1.2.6)
 For the impatient:
 
 * Use `.dash(options, callback)` to fetch data from Dash. 
-* Required keys are `api_token`, `fetch`, and `metric_name`.
+* Required keys are `token`, `fetch`, and `metric`.
 * Depending on which `fetch` parameter you use, your callback function will either receive a single value, an array of values, or an object.
 * In your callback, `this` will refer to an element matching your selector.
 
@@ -47,7 +49,7 @@ Fetching a data series:
 
 {% highlight javascript %}
 
-$('#demo1').dash({fetch: 'series', apiToken: token, 'metric_name': 'cpu'},
+$('#demo1').dash({fetch: 'series', token: token, metric: 'cpu'},
   function(values) {
     $(this).append(values.join(','));
   });
@@ -61,7 +63,7 @@ $('#demo1').dash({fetch: 'series', apiToken: token, 'metric_name': 'cpu'},
 Fetching metadata and metric data:
 
 {% highlight javascript %}
-$('#demo2').dash({fetch: 'all', apiToken: token, 'metric_name': 'cpu'},
+$('#demo2').dash({fetch: 'all', token: token, metric: 'cpu'},
   function(obj) {
     $(this).children('h4').replaceWith("<h4>" + obj.metric + " from " + obj.app + "</h4>");
     $(this).children('.values').append("Most recent value: " + obj.data[0][1]);
@@ -119,12 +121,12 @@ In addition to `fetch`, other parameters are respected:
   
   <tbody>
     <tr>
-      <td><code>metric_name</code></td>
+      <td><code>metric</code></td>
       <td><strong>Yes</strong></td>
       <td>The name of the metric to fetch. This is specified when you define a recipe.</td>
     </tr>
     <tr>
-      <td><code>apiToken</code></td>
+      <td><code>token</code></td>
       <td><strong>Yes</strong></td>
       <td>This is the read token for your Dash application.</td>
     </tr>
@@ -217,20 +219,20 @@ See the [README](http://github.com/fiveruns/dash-javascript/tree/master "fiverun
   $(function() {
     var token = 'b1b546e3b454d17cd7a61987e9d8087c2eca0336';
     
-    $('#demo0').dash({fetch: 'latest', apiToken: token, 'metric_name': 'cpu'},
+    $('#demo0').dash({fetch: 'latest', token: token, metric: 'cpu'},
       function(value) {
         $(this).append(value);
       });
     
-    $('#demo1').dash({fetch: 'series', apiToken: token, 'metric_name': 'cpu'},
+    $('#demo1').dash({fetch: 'series', token: token, metric: 'cpu'},
       function(values) {
         $(this).append(values.join(','));
       });
       
-    $('#demo2').dash({fetch: 'all', apiToken: token, 'metric_name': 'cpu'},
+    $('#demo2').dash({fetch: 'all', token: token, metric: 'cpu'},
       function(obj) {
         $(this).children('h4').replaceWith("<h4>" + obj.metric + " from " + obj.app + "</h4>");
-        $(this).children('.values').append("Most recent value: " + obj.data[0][1]);
+        $(this).children('.values').append("Most recent value: " + obj.data.reverse()[0][1]);
       });
   });
   

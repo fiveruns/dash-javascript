@@ -1,7 +1,7 @@
 (function($) {
   var defaults = function() {
     return {
-        apiToken: '',
+        token: '',
         metric: '',
         dashHost: 'http://dash.fiveruns.com'
     };
@@ -10,17 +10,29 @@
   var apiUrl = function(options) {
     return options.dashHost + 
            '/apps/' + 
-           options.apiToken + 
+           options.token + 
            '/data-v1.js?callback=?';
   };
   
   var extractParams = function(options) {
-    var paramNames = ['start_at', 'stop_at', 'window', 'metric_name'];
     params = {};
     
     for (name in options) {
-      if (jQuery.inArray(name, paramNames) > 0) {
-        params[name] = options[name];
+      switch (name) {
+        case 'start_at':
+          params['start_at'] = options['start_at'];
+          break;
+        case 'stop_at':
+          params['stop_at'] = options['stop_at'];
+          break;
+        case 'window':
+          params['window'] = options['window'];
+          break;
+        case 'metric':
+          params['metric_name'] = options['metric'];
+        default:
+          // Skip it
+          break;
       }
     }
     
@@ -42,11 +54,11 @@
             callback.apply(el, [datum]);
             break;
           case "latest":
-            var value = obj.data.pop().pop();
+            var value = obj.data.reverse().pop().pop();
             callback.apply(el, [value]);
             break;
           default:
-            // Raise an error
+            throw "Invalid Dash fetch option";
             break;
         };
       });
