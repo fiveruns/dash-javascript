@@ -3,7 +3,7 @@
     return {
         token: '',
         metric: '',
-        dashHost: 'http://dash.fiveruns.com'
+        dashHost: 'http://dash-api.fiveruns.com'
     };
   };
   
