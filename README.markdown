@@ -2,6 +2,8 @@
 
 This is a jQuery plugin that fetches data from your apps in Dash for display in your browser-based applications.
 
+You are looking at version 0.5.0.
+
 ## Dependencies
 
 This was developed against jQuery 1.3.1, but will probably work with jQuery 1.2.6 as well.
