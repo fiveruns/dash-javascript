@@ -19,12 +19,6 @@
     
     for (name in options) {
       switch (name) {
-        case 'start_at':
-          params['start_at'] = options['start_at'];
-          break;
-        case 'stop_at':
-          params['stop_at'] = options['stop_at'];
-          break;
         case 'window':
           params['window'] = options['window'];
           break;
