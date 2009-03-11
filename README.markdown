@@ -18,7 +18,7 @@ This was developed against jQuery 1.3.1, but will probably work with jQuery 1.2.
 
 The short version:
     
-    $('#demo0').dash({fetch: 'latest', apiToken: token, 'metric_name': 'cpu'},
+    $('#demo0').dash({fetch: 'latest', token: token, metric: 'cpu'},
       function(value) {
         $(this).append(value);
     });
@@ -27,6 +27,7 @@ The long version: see the [dash-javascript website for deeper details](http://fi
 
 ## Limitations
 
+* You can only fetch the most recent data. We hope to support fetching data from arbitrary time windows in the future.
 * For the time being, we support only read access to Dash from browser-based apps. This is due to scalability concerns and the awkwardness of writing data in cross-domain browser-based applications.
 
 ## Authors
