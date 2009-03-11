@@ -3,9 +3,9 @@ layout: default
 title: dash-javascript 0.5.0
 ---
 
-`dash-javascript` makes it easy to fetch data from Dash for use in your application. You can fetch the latest value for any metric, fetch the values for a metric between some time range using a specific time window, or you can fetch data and metadata related to some metric within a time range and window.
+`dash-javascript` makes it easy to fetch the most recent data from Dash for use in your application. You can choose the granularity of data you'd like to fetch (1 hour, 12 hours, 24 hours, etc.).
 
-The current version of `dash-javascript` is 0.5.0.
+The current version of `dash-javascript` is 0.5.5.
 
 ## Dependencies
 
@@ -29,7 +29,7 @@ Fetching the most recent value for the `cpu` metric:
 {% endhighlight %}
 
 {% highlight javascript %}
-$('#demo0').dash({fetch: 'latest', apiToken: token, 'metric_name': 'cpu'},
+$('#demo0').dash({fetch: 'latest', token: token, metric: 'cpu'},
   function(value) {
     $(this).append(value);
 });
@@ -90,21 +90,21 @@ The `dash` method takes a parameters object and a callback function. The value o
 
 <table>
   <thead>
-    <th>`fetch` option</th>
+    <th><code>fetch</code> option</th>
     <th>Callback arguments</th>
   </thead>
   
   <tbody>
     <tr>
-      <td>`latest`</td>
+      <td><code>latest</code></td>
       <td>The latest value for the specified metric.</td>
     </tr>
     <tr>
-      <td>`series`</td>
+      <td><code>series</code></td>
       <td>An array of data values for the specified metric.</td>
     </tr>
     <tr>
-      <td>`all`</td>
+      <td><code>all</code></td>
       <td>Metric metadata plus the data values.</td>
     </tr>
   </tbody>
@@ -131,14 +131,31 @@ In addition to `fetch`, other parameters are respected:
       <td>This is the read token for your Dash application.</td>
     </tr>
     <tr>
-      <td><code>start_at</code></td>
-      <td>No/most recent</td>
-      <td>This specifies a timestamp for the first data point you'd like to fetch.</td>
-    </tr>
-    <tr>
-      <td><code>stop_at</code></td>
-      <td>No/most recent</td>
-      <td>This specifies a timestamp for the last data point you'd like to fetch.</td>
+      <td><code>window</code></td>
+      <td>No/1 hour</td>
+      <td>
+        <p>
+          This specifies the time window to use when fetching results.
+        </p>
+        
+        <dl>
+          <dt>0</dt>
+          <dd>1 hour</dd>
+          <dt>1</dt>
+          <dd>12 hours</dd>
+          <dt>2</dt>
+          <dd>24 hours</dd>
+          <dt>3</dt>
+          <dd>48 hours</dd>
+          <dt>4</dt>
+          <dd>1 week</dd>
+        </dl>
+        
+        <p>
+          Due to the way Dash stores metrics, you will receive between 48 and 60 data points. This means that each data point represents a progressively longer interval. For example, when you pull one hour of data, each point represents one minute of data. When you pull 12 hours of data, each point represents 15 minutes of data. Dash will return zero-padded results if there isn't enough data to completely populate the specified window.
+        </p>
+        
+      </td>
     </tr>
   </tbody>
 </table>
