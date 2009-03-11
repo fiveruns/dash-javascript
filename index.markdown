@@ -3,7 +3,7 @@ layout: default
 title: dash-javascript
 ---
 
-`dash-javascript` makes it easy to fetch the most recent data from Dash for use in your application. You can choose the granularity of data you'd like to fetch (1 hour, 12 hours, 24 hours, etc.).
+`dash-javascript` makes it easy to fetch recent data for your applications using the [FiveRuns Dash](http://dash.fiveruns.com) service, for use on web pages. You can choose the granularity of data you'd like; 1 hour, 12 hours, 24 hours, etc.
 
 The current version of `dash-javascript` is 0.5.5.
 
@@ -35,7 +35,7 @@ $('#demo0').dash({fetch: 'latest', token: token, metric: 'cpu'},
 });
 {% endhighlight %}
 
-<div id="demo0">
+<div id="demo0" class='live'>
   Latest CPU value: 
 </div>
 
@@ -56,7 +56,7 @@ $('#demo1').dash({fetch: 'series', token: token, metric: 'cpu'},
 
 {% endhighlight %}
 
-<div id="demo1">
+<div id="demo1" class='live'>
   Recent CPU values:
 </div>
 
@@ -78,7 +78,7 @@ $('#demo2').dash({fetch: 'all', token: token, metric: 'cpu'},
 </div>
 {% endhighlight %}
 
-<div id="demo2">
+<div id="demo2" class='live'>
   <h4>Placeholder</h4>
   
   <p class="values"></p>
@@ -96,15 +96,15 @@ The `dash` method takes a parameters object and a callback function. The value o
   
   <tbody>
     <tr>
-      <td><code>latest</code></td>
+      <td class='mono'><code>latest</code></td>
       <td>The latest value for the specified metric.</td>
     </tr>
     <tr>
-      <td><code>series</code></td>
+      <td class='mono'><code>series</code></td>
       <td>An array of data values for the specified metric.</td>
     </tr>
     <tr>
-      <td><code>all</code></td>
+      <td class='mono'><code>all</code></td>
       <td>Metric metadata plus the data values.</td>
     </tr>
   </tbody>
@@ -121,17 +121,17 @@ In addition to `fetch`, other parameters are respected:
   
   <tbody>
     <tr>
-      <td><code>metric</code></td>
+      <td class='mono'><code>metric</code></td>
       <td><strong>Yes</strong></td>
       <td>The name of the metric to fetch. This is specified when you define a recipe.</td>
     </tr>
     <tr>
-      <td><code>token</code></td>
+      <td class='mono'><code>token</code></td>
       <td><strong>Yes</strong></td>
       <td>This is the read token for your Dash application.</td>
     </tr>
     <tr>
-      <td><code>window</code></td>
+      <td class='mono'><code>window</code></td>
       <td>No/1 hour</td>
       <td>
         <p>
@@ -172,19 +172,19 @@ The Dash API returns a JSON object. When the `fetch` parameter is `latest` or `s
   
   <tbody>
     <tr>
-      <td><code>metric</code></td>
+      <td class='mono'><code>metric</code></td>
       <td>The human-friendly description of the metric.</td>
     </tr>
     <tr>
-      <td><code>app</code></td>
+      <td class='mono'><code>app</code></td>
       <td>The name of the application this metric belongs to.</td>
     </tr>
     <tr>
-      <td><code>data</code></td>
+      <td class='mono'><code>data</code></td>
       <td>An array of two-tuples. Each entry in the array is a data point. The tuple is of the form <code>[timestamp, metric value].</code></td>
     </tr>
     <tr>
-      <td><code>unit</code></td>
+      <td class='mono'><code>unit</code></td>
       <td>A label for the units of the fetched metric. For example, <code>cpu</code> is in "%", <code>vsz</code> (virtual memory size) is in kilobytes, etc.</td>
     </tr>
   </tbody>
