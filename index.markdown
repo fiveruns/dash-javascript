@@ -1,6 +1,6 @@
 ---
 layout: default
-title: dash-javascript 0.5.0
+title: dash-javascript
 ---
 
 `dash-javascript` makes it easy to fetch the most recent data from Dash for use in your application. You can choose the granularity of data you'd like to fetch (1 hour, 12 hours, 24 hours, etc.).
