@@ -1,7 +1,5 @@
 (function($) {
   
-  // TODO: look up responses in the cache
-  var dashCache = {};
   var dashListeners = {};
   
   var defaults = function() {
