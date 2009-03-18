@@ -7,8 +7,7 @@
         token: '',
         metric: '',
         window: 0,
-        // dashHost: 'http://dash-api.fiveruns.com'
-        dashHost: 'http://localhost:3000'
+        dashHost: 'http://dash-api.fiveruns.com'
     };
   };
   
