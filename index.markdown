@@ -5,7 +5,7 @@ title: dash-javascript
 
 `dash-javascript` makes it easy to fetch recent data from your applications using the [FiveRuns Dash](http://dash.fiveruns.com) service for use on web pages. You can choose the granularity of data you'd like; 1 hour, 12 hours, 24 hours, etc.
 
-The current version of `dash-javascript` is 0.5.5.
+The current version of `dash-javascript` is 0.6.0.
 
 ## Dependencies
 
