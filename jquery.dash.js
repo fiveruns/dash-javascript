@@ -1,5 +1,6 @@
 (function($) {
   
+  // TODO: look up responses in the cache
   var dashCache = {};
   var dashListeners = {};
   
@@ -39,12 +40,17 @@
     return params;
   };
   
-  var requestKey = function(token, metric, window) {
+  var cacheKey = function(token, metric, window) {
     return token + "-" + metric + "-" + window;
   };
   
+  var cacheKeyPending = function(params) {
+    var key = cacheKey(params.token, params.metric, params.window);
+    return dashListeners.hasOwnProperty(key) && dashListeners[key].length > 1;
+  };
+  
   var addListener = function(params, callback) {
-    var key = requestKey(params.token, params.metric, params.window);
+    var key = cacheKey(params.token, params.metric, params.window);
     if (dashListeners[key] != null) {
       dashListeners[key].push(callback);
     } else {
@@ -53,8 +59,9 @@
   };
   
   $.dashRouter = function(obj) {
-    var key = requestKey(obj.token, obj.metricName, obj.window);
+    var key = cacheKey(obj.token, obj.metricName, obj.window);
     $.each(dashListeners[key], function(_, callback) { callback(obj); });
+    dashListeners[key] = [];
   };
   
   $.fn.dash = function(options, callback) {
@@ -63,7 +70,6 @@
     var params = extractParams(options);
     
     var handler = function(obj) {
-      console.log('borp');
       switch (options.fetch) {
         case "all":
           callback.apply(el, [obj]);
@@ -85,12 +91,13 @@
     addListener(options, handler);
     
     this.each(function() {
-      $.ajax({type: 'GET',
-              url: apiUrl(options),
-              data: params,
-              dataType: 'script',
-              // success: handler,
-              cache: true});
+      if (!cacheKeyPending(options)) {
+        $.ajax({type: 'GET',
+                url: apiUrl(options),
+                data: params,
+                dataType: 'script',
+                cache: true});
+      }
     });
     
     return this;
